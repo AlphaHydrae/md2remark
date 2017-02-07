@@ -1,0 +1,57 @@
+{
+  "name": "md2remark",
+  "version": "0.1.0",
+  "description": "Convert regular Markdown to Remark slides, with a few extensions",
+  "keywords": [
+    "markdown",
+    "remark",
+    "slides"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Simon Oulevay (Alpha Hydrae)",
+    "email": "npm@alphahydrae.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlphaHydrae/md2remark.git"
+  },
+  "homepage": "https://github.com/AlphaHydrae/md2remark",
+  "bugs": "https://github.com/AlphaHydrae/md2remark/issues",
+  "main": "./lib/index.js",
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && npm run src:build",
+    "prepublish": "npm run build",
+    "src:build": "npm run src:lint && npm run src:compile",
+    "src:compile": "babel src -d lib",
+    "src:lint": "jshint src",
+    "src:watch": "onchange \"src/**/*.js\" -- npm run src:build",
+    "start": "npm run build && npm run watch",
+    "watch": "npm run src:watch"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "lodash": "^4.17.4",
+    "mutxtor": "~0.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "concurrently": "^3.1.0",
+    "esdoc": "^0.5.2",
+    "jshint": "^2.9.4",
+    "live-server": "^1.2.0",
+    "onchange": "^3.2.1",
+    "rimraf": "^2.5.4"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  }
+}
