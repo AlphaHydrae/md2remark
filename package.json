@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "build": "rimraf lib && npm run src:build",
+    "doctoc": "doctoc --notitle --github README.md",
     "prepublish": "npm run build",
     "src:build": "npm run src:lint && npm run src:compile",
     "src:compile": "babel src -d lib",
@@ -36,7 +37,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "lodash": "^4.17.4",
-    "mutxtor": "~0.1.0"
+    "mutxtor": "file:///Users/unknow/Projects/alphahydrae/mutxtor"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
@@ -45,6 +46,7 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
     "concurrently": "^3.1.0",
+    "doctoc": "^1.2.0",
     "esdoc": "^0.5.2",
     "jshint": "^2.9.4",
     "live-server": "^1.2.0",
