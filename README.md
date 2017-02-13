@@ -254,10 +254,12 @@ Suspendisse potenti.
 For containers to work, you should add the following CSS to your slides' HTML
 template:
 
-```css
-.container {
-  clear: both;
-}
+```html
+<style>
+  .container {
+    clear: both;
+  }
+</style>
 ```
 
 
