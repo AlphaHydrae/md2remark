@@ -1,4 +1,4 @@
-import { includes } from 'lodash';
+import { defaults, includes } from 'lodash';
 import { TextDocument } from 'mutxtor';
 import Promise from 'bluebird';
 
@@ -29,6 +29,7 @@ export default function md2remark(markdown, options) {
   }).add();
 
   doc.buildParser('SlideContainer').regexp(/<\!--\s*slide-container\s*-->/gm).mutate(function(data) {
+
     this.replace('.container[');
 
     const closingElement = this.document.findNext(this, (e) => isGridElement(e) && e.type != 'SlideColumn');
@@ -48,8 +49,12 @@ export default function md2remark(markdown, options) {
     }
   }).add();
 
+  doc.buildParser('SlideNotes').regexp(/<\!--\s*slide-notes\s*-->/gm).mutate(function(data) {
+    this.replace('???');
+  }).add();
+
   function isGridElement(element) {
-    return element.grid || includes([ 'MarkdownTitle', 'SlideColumn', 'SlideContainer' ], element.type);
+    return element.grid || includes([ 'MarkdownTitle', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
   }
 
   return Promise.resolve(doc.mutate()).get('text');
