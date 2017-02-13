@@ -20,7 +20,6 @@
   "bugs": "https://github.com/AlphaHydrae/md2remark/issues",
   "main": "./lib/index.js",
   "files": [
-    "dist",
     "lib"
   ],
   "scripts": {
