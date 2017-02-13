@@ -6,9 +6,9 @@ export default function md2remark(markdown, options) {
 
   const doc = new TextDocument(markdown);
 
-  doc.buildParser('MarkdownTitle').regexp(/^(#+)\s*(.+)$/gm).mutate(function(data) {
-    const titleLevel = data.match[1].length;
-    if (titleLevel >= 2) {
+  doc.buildParser('MarkdownHeader').regexp(/^(#+)\s*(.+)$/gm).mutate(function(data) {
+    const headerLevel = data.match[1].length;
+    if (headerLevel >= 2) {
       this.prepend('---\n');
     }
   }).add();
@@ -41,11 +41,11 @@ export default function md2remark(markdown, options) {
   }).add();
 
   doc.buildParser('SlideFrontMatter').regexp(/<\!--\s*slide-front-matter\s*([^\n]+?)\s*-->/gm).mutate(function(data) {
-    const previousTitle = this.document.findPrevious(this, (e) => e.type == 'MarkdownTitle');
+    const previousHeader = this.document.findPrevious(this, (e) => e.type == 'MarkdownHeader');
     this.remove();
 
-    if (previousTitle) {
-      previousTitle.prepend(data.match[1] + '\n');
+    if (previousHeader) {
+      previousHeader.prepend(data.match[1] + '\n');
     }
   }).add();
 
@@ -54,7 +54,7 @@ export default function md2remark(markdown, options) {
   }).add();
 
   function isGridElement(element) {
-    return element.grid || includes([ 'MarkdownTitle', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
+    return element.grid || includes([ 'MarkdownHeader', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
   }
 
   return Promise.resolve(doc.mutate()).get('text');
