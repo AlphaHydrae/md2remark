@@ -32,6 +32,8 @@ know what HTML comments you can write.
 
 
 
+
+
 ## Usage
 
 Install it with `npm install --save md2remark`, then use it in your code:
@@ -80,7 +82,12 @@ Amazing slide.
 
 
 
+
+
 ## Documentation
+
+This documentation assumes that you are familiar with the basics of [Remark
+slides][remark]. The full Remark documentation is available [here][remark-docs].
 
 
 
@@ -91,6 +98,8 @@ start a new slide, except level 1 headers.
 
 There's currently no other way to start a new slide with `md2remark` (to be
 improved).
+
+The following Markdown:
 
 ```md
 # Main title
@@ -118,7 +127,10 @@ Will be converted to:
 ### Slide front matter
 
 Add a `<!-- slide-front-matter FRONTMATTER -->` comment **after** a Markdown
-header to add front matter to that slide.
+header. The contents of the comment (`FRONTMATTER`) will be prepended to the
+previous Markdown header.
+
+The following Markdown:
 
 ```md
 ## Slide 1
@@ -134,7 +146,7 @@ Consectetur adipiscing elit.
 
 Will be converted to:
 
-```txt
+```md
 ---
 class: center, middle
 ## Slide 1
@@ -154,6 +166,8 @@ Consectetur adipiscing elit.
 Add a `<!-- slide-notes -->` comment in a slide. It will be replaced by the
 Remark notes annotation `???`.
 
+The following Markdown:
+
 ```md
 ## Slide
 
@@ -167,14 +181,88 @@ Consectetur adipiscing elit.
 Will be converted to:
 
 ```md
+---
 ## Slide
 
 Lorem ipsum dolor sit amet.
 
 ???
 
-Consectetur adipiscing elit.```
+Consectetur adipiscing elit.
+```
+
+
+
+### Slide columns
+
+This feature requires you to add [unsemantic][unsemantic] to your slides'
+HTML template, as it is based on unsemantic's grid system:
+
+```html
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/unsemantic/1.1.3/unsemantic-grid-responsive.min.css'>
+```
+
+Use a `<!-- slide-column WIDTH -->` comment to define a column. You can only use
+one level of columns (they cannot be nested).
+
+If you want to add content after a column row, close the row with a
+`<!-- slide-container -->` comment.
+
+The following Markdown:
+
+```md
+## Slide
+
+Consectetur adipiscing elit.
+
+<!-- slide-column 40 -->
+
+Lorem ipsum dolor sit amet.
+
+<!-- slide-column 60 -->
+
+Proin vel elit eget dolor dignissim gravida.
+
+<!-- slide-container -->
+
+Suspendisse potenti.
+```
+
+Will be converted to:
+
+```md
+## Slide
+
+Consectetur adipiscing elit.
+
+.grid-40[
+
+Lorem ipsum dolor sit amet.
+
+]
+.grid-60[
+
+Proin vel elit eget dolor dignissim gravida.
+
+]
+.container[
+
+Suspendisse potenti.
+]
+```
+
+For containers to work, you should add the following CSS to your slides' HTML
+template:
+
+```css
+.container {
+  clear: both;
+}
+```
+
+
 
 
 
 [remark]: https://remarkjs.com/
+[remark-docs]: https://github.com/gnab/remark/wiki/Markdown
