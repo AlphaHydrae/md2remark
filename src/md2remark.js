@@ -21,8 +21,12 @@ export default function md2remark(markdown, options) {
 
   // Convert "<!-- slide-column WIDTH -->" to ".grid-WIDTH[" (and close it
   // before the next grid element or at the end of the document)
-  doc.buildParser('SlideColumn').regexp(/<\!--\s*slide-column\s*(\d+)\s*-->/gm).mutate(function(data) {
+  doc.buildParser('SlideColumn').regexp(/<\!--\s*slide-column(?:\s*(\d+))?\s*-->/gm).mutate(function(data) {
     this.replace('.grid-' + data.match[1] + '[');
+
+    console.log('@@@@@@@@@@@@@@@');
+    const previousColumns = this.document.query().last().before(this).where('type', 'SlideColumn').until((e) => e.type != 'SlideColumn' && isGridElement(e)).findAll();
+    console.log(previousColumns.join(', '));
 
     const closingElement = this.document.findNext(this, isGridElement);
     if (closingElement) {
