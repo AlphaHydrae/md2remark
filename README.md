@@ -1,5 +1,8 @@
 # md2remark
 
+[![npm version](https://badge.fury.io/js/md2remark.svg)](https://badge.fury.io/js/md2remark)
+[![Dependency Status](https://gemnasium.com/badges/github.com/AlphaHydrae/md2remark.svg)](https://gemnasium.com/github.com/AlphaHydrae/md2remark)
+
 > Convert regular Markdown to [Remark][remark] slides, with a few extensions.
 
 The problem this project tries to solve is that [Remark][remark] forces you to
