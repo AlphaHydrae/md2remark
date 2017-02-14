@@ -21,12 +21,23 @@ export default function md2remark(markdown, options) {
 
   // Convert "<!-- slide-column WIDTH -->" to ".grid-WIDTH[" (and close it
   // before the next grid element or at the end of the document)
-  doc.buildParser('SlideColumn').regexp(/<\!--\s*slide-column(?:\s*(\d+))?\s*-->/gm).mutate(function(data) {
-    this.replace('.grid-' + data.match[1] + '[');
+  doc.buildParser('SlideColumn').regexp(/<\!--\s*slide-column(?:\s*(\d+))?\s*-->/gm).initialize(function(data) {
+    this.columnWidth = data.match[1] ? parseInt(data.match[1], 10) : 0;
+  }).mutate(function() {
 
-    console.log('@@@@@@@@@@@@@@@');
-    const previousColumns = this.document.query().last().before(this).where('type', 'SlideColumn').until((e) => e.type != 'SlideColumn' && isGridElement(e)).findAll();
-    console.log(previousColumns.join(', '));
+    let width = this.columnWidth;
+
+    // If no WIDTH is specified, deduce it from the number of columns
+    // and the remaining width
+    if (!width) {
+      const otherColumns = this.document.query().around(this).where('type', 'SlideColumn').until(isColumnBreak).all();
+      const currentWidth = otherColumns.reduce((memo, c) => memo + c.columnWidth, 0);
+      const autoColumns = otherColumns.filter((c) => !c.columnWidth);
+      // TODO: validate that computed column widths are valid unsemantic grid widths (multiples of 5 or 33)
+      width = ((currentWidth > 0 && currentWidth % 33 === 0 ? 99 : 100) - currentWidth) / (autoColumns.length + 1);
+    }
+
+    this.replace('.grid-' + width + '[');
 
     const closingElement = this.document.findNext(this, isGridElement);
     if (closingElement) {
@@ -68,7 +79,11 @@ export default function md2remark(markdown, options) {
 
   // A "grid" element is any element that should break a column row
   function isGridElement(element) {
-    return element.grid || includes([ 'MarkdownHeader', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
+    return includes([ 'MarkdownHeader', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
+  }
+
+  function isColumnBreak(element) {
+    return element.type != 'SlideColumn' && isGridElement(element);
   }
 
   return Promise.resolve(doc.mutate()).get('text');

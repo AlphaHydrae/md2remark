@@ -198,6 +198,12 @@ Consectetur adipiscing elit.
 
 ### Slide columns
 
+Use a `<!-- slide-column WIDTH -->` comment to define a column. You can only use
+one level of columns (they cannot be nested).
+
+If you want to add content after a column row, close the row with a
+`<!-- slide-container -->` comment.
+
 This feature requires you to add [unsemantic][unsemantic] to your slides'
 HTML template, as it is based on unsemantic's grid system:
 
@@ -205,11 +211,16 @@ HTML template, as it is based on unsemantic's grid system:
 <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/unsemantic/1.1.3/unsemantic-grid-responsive.min.css'>
 ```
 
-Use a `<!-- slide-column WIDTH -->` comment to define a column. You can only use
-one level of columns (they cannot be nested).
+For containers to work, you should add the following CSS to your slides' HTML
+template:
 
-If you want to add content after a column row, close the row with a
-`<!-- slide-container -->` comment.
+```html
+<style>
+  .container {
+    clear: both;
+  }
+</style>
+```
 
 The following Markdown:
 
@@ -254,15 +265,46 @@ Suspendisse potenti.
 ]
 ```
 
-For containers to work, you should add the following CSS to your slides' HTML
-template:
+You can also omit column widths or specify it only for one column.
+Remaining columns will be sized automatically based on the remaining space.
 
-```html
-<style>
-  .container {
-    clear: both;
-  }
-</style>
+*(Note that unsemantic column widths should be multiples of 5 or 33, and that this is checked for you at this time.)*
+
+The following Markdown:
+
+```md
+<!-- slide-column 40 -->
+<!-- slide-column -->
+<!-- slide-column -->
+<!-- slide-container -->
+<!-- slide-column 66 -->
+<!-- slide-column -->
+<!-- slide-container -->
+<!-- slide-column -->
+<!-- slide-column -->
+```
+
+Will be converted to:
+
+```md
+.grid-40[
+]
+.grid-20[
+]
+.grid-20[
+]
+.container[
+]
+.grid-66[
+]
+.grid-33[
+]
+.container[
+]
+.grid-50[
+]
+.grid-50[
+]
 ```
 
 
