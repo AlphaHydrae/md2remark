@@ -1,5 +1,5 @@
 import { defaults, includes } from 'lodash';
-import { TextDocument } from 'mutxtor';
+import { TextDocument, TextDocumentEnd } from 'mutxtor';
 import Promise from 'bluebird';
 
 export default function md2remark(markdown, options) {
@@ -40,25 +40,16 @@ export default function md2remark(markdown, options) {
     this.replace('.grid-' + width + '[');
 
     const closingElement = this.document.findNext(this, isGridElement);
-    if (closingElement) {
-      closingElement.prepend(']\n');
-    } else {
-      this.document.append(this, ']\n');
-    }
+    this.document.prependTo(closingElement || TextDocumentEnd, ']\n');
   }).add();
 
-  // Convert "<!-- slide-container -->" to ".container" (and close it before the
+  // Convert "<!-- slide-container -->" to ".container[" (and close it before the
   // next grid element or at the end of the document)
   doc.buildParser('SlideContainer').regexp(/<\!--\s*slide-container\s*-->/gm).mutate(function(data) {
-
     this.replace('.container[');
 
-    const closingElement = this.document.findNext(this, (e) => isGridElement(e) && e.type != 'SlideColumn');
-    if (closingElement) {
-      closingElement.prepend(']\n');
-    } else {
-      this.document.append(this, ']\n');
-    }
+    const closingElement = this.document.findNext(this, isColumnBreak);
+    this.document.prependTo(closingElement || TextDocumentEnd, ']\n');
   }).add();
 
   // Convert "<!-- slide-front-matter FRONTMATTER -->" to "FRONTMATTER" and move
