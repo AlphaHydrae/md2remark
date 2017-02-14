@@ -30,6 +30,7 @@ know what HTML comments you can write.
   - [Start a new slide](#start-a-new-slide)
   - [Slide front matter](#slide-front-matter)
   - [Slide notes](#slide-notes)
+  - [Slide columns](#slide-columns)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -264,6 +265,8 @@ Proin vel elit eget dolor dignissim gravida.
 Suspendisse potenti.
 ]
 ```
+
+#### Omit column widths
 
 You can also omit column widths or specify it only for one column.
 Remaining columns will be sized automatically based on the remaining space.
