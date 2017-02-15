@@ -40,7 +40,7 @@ export default function md2remark(markdown, options) {
     this.replace('.grid-' + width + '[');
 
     const closingElement = this.document.findNext(this, isGridElement);
-    this.document.prependTo(closingElement || TextDocumentEnd, ']\n');
+    this.document.prependTo(closingElement || TextDocumentEnd, '\n]\n');
   }).add();
 
   // Convert "<!-- slide-container -->" to ".container[" (and close it before the
@@ -49,7 +49,7 @@ export default function md2remark(markdown, options) {
     this.replace('.container[');
 
     const closingElement = this.document.findNext(this, isColumnBreak);
-    this.document.prependTo(closingElement || TextDocumentEnd, ']\n');
+    this.document.prependTo(closingElement || TextDocumentEnd, '\n]\n');
   }).add();
 
   // Convert "<!-- slide-front-matter FRONTMATTER -->" to "FRONTMATTER" and move
