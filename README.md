@@ -271,7 +271,7 @@ Suspendisse potenti.
 You can also omit column widths or specify it only for one column.
 Remaining columns will be sized automatically based on the remaining space.
 
-*(Note that unsemantic column widths should be multiples of 5 or 33, and that this is checked for you at this time.)*
+*(Note that unsemantic column widths should be multiples of 5 or 33, and that this is NOT checked for you at this time.)*
 
 The following Markdown:
 
