@@ -34,7 +34,7 @@ export default function md2remark(markdown, options) {
       const currentWidth = otherColumns.reduce((memo, c) => memo + c.columnWidth, 0);
       const autoColumns = otherColumns.filter((c) => !c.columnWidth);
       // TODO: validate that computed column widths are valid unsemantic grid widths (multiples of 5 or 33)
-      width = ((currentWidth > 0 && currentWidth % 33 === 0 ? 99 : 100) - currentWidth) / (autoColumns.length + 1);
+      width = (((currentWidth > 0 && currentWidth % 33 === 0) || currentWidth === 0 && otherColumns.length == 2 ? 99 : 100) - currentWidth) / (autoColumns.length + 1);
     }
 
     this.replace('.grid-' + width + '[');
