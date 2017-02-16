@@ -31,6 +31,8 @@ know what HTML comments you can write.
   - [Slide front matter](#slide-front-matter)
   - [Slide notes](#slide-notes)
   - [Slide columns](#slide-columns)
+    - [Omit column widths](#omit-column-widths)
+  - [Breadcrumbs](#breadcrumbs)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -308,6 +310,47 @@ Will be converted to:
 ]
 .grid-50[
 ]
+```
+
+
+
+### Breadcrumbs
+
+If you set the `breadcrumbs` option to `true`, breadcumbs will be added after each Markdown header,
+containing the list of parent Markdown headers:
+
+```js
+md2remark(markdown, { breadcrumbs: true }).then(callback);
+```
+
+The following Markdown:
+
+```md
+# Foo
+
+## Bar
+
+### Baz
+
+## Qux
+```
+
+Will be converted to:
+
+```md
+# Foo
+
+## Bar
+
+.breadcrumbs[<a href="#1">Foo</a>]
+
+### Baz
+
+.breadcrumbs[<a href="#1">Foo</a> > <a href="#2">Bar</a>]
+
+## Qux
+
+.breadcrumbs[<a href="#1">Foo</a>]
 ```
 
 

@@ -1,4 +1,4 @@
-import { defaults, includes } from 'lodash';
+import { extend, includes } from 'lodash';
 import { TextDocument, TextDocumentEnd } from 'mutxtor';
 import Promise from 'bluebird';
 
@@ -6,11 +6,26 @@ export default function md2remark(markdown, options) {
 
   const doc = new TextDocument(markdown);
 
+  options = extend({
+    breadcrumbs: false
+  }, options);
+
   // Convert Markdown headers to --- slide separators
-  doc.buildParser('MarkdownHeader').regexp(/^(#+)\s*(.+)$/gm).mutate(function(data) {
-    const headerLevel = data.match[1].length;
-    if (headerLevel >= 2) {
+  doc.buildParser('MarkdownHeader').regexp(/^(#+)\s*(.+)$/gm).initialize(function(data) {
+    this.headerLevel = data.match[1].length;
+    this.headerContent = data.match[2];
+  }).mutate(function(data) {
+    if (this.headerLevel >= 2) {
       this.prepend('---\n');
+
+      if (options.breadcrumbs) {
+        const breadcrumbs = collectBreadcrumbs(this);
+        if (breadcrumbs.length) {
+          // TODO: escape html
+          const links = breadcrumbs.map(bc => `<a href="#${bc.slide}">${bc.content}</a>`);
+          this.append(`\n\n.breadcrumbs[${links.join(' > ')}]`);
+        }
+      }
     }
   }).add();
 
@@ -73,8 +88,33 @@ export default function md2remark(markdown, options) {
     return includes([ 'MarkdownHeader', 'SlideColumn', 'SlideContainer', 'SlideNotes' ], element.type);
   }
 
+  // An element breaks a column row if it's a grid element and not another column.
   function isColumnBreak(element) {
     return element.type != 'SlideColumn' && isGridElement(element);
+  }
+
+  // Recursively collect parent Markdown headers
+  function collectBreadcrumbs(currentHeader, breadcrumbs) {
+    if (!currentHeader) {
+      breadcrumbs.pop();
+      return breadcrumbs;
+    }
+
+    breadcrumbs = breadcrumbs || [];
+    breadcrumbs.unshift({
+      slide: currentHeader.document.query().before(currentHeader).where('type', 'MarkdownHeader').all().length + 1,
+      content: currentHeader.headerContent,
+    });
+
+    let parentHeader = currentHeader.document
+      .query()
+      .before(currentHeader)
+      .where('type', 'MarkdownHeader')
+      .where(h => h.headerLevel < currentHeader.headerLevel)
+      .descending()
+      .first();
+
+    return collectBreadcrumbs(parentHeader, breadcrumbs);
   }
 
   return Promise.resolve(doc.mutate()).get('text');
