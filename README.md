@@ -33,6 +33,7 @@ know what HTML comments you can write.
   - [Slide columns](#slide-columns)
     - [Omit column widths](#omit-column-widths)
   - [Breadcrumbs](#breadcrumbs)
+  - [Includes](#includes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -351,6 +352,42 @@ Will be converted to:
 ## Qux
 
 .breadcrumbs[<a href="#1">Foo</a>]
+```
+
+
+
+### Includes
+
+Use `<!-- slide-include path/to/file.md -->` to include another Markdown (or plain text) file.
+
+Assuming you have a `HELLO.md` file containing the text "Hello World!" in the current working directory, the following Markdown:
+
+```md
+# Foo
+
+<!-- slide-include HELLO.md -->
+```
+
+Will be converted to:
+
+```md
+# Foo
+
+Hello World!
+```
+
+Included files are inserted without further parsing or transformation (they cannot contain other includes themselves).
+
+By default, the path is relative to the process's current working directory.
+To make it relative to the Markdown file making the inclusion, you have to give the file's path when you call `md2remark`:
+
+```js
+const file = '/path/to/some/markdown.md';
+const markdown = fs.readFileSync(file, 'utf-8');
+
+md2remark(markdown, { file: file }).then(function(slidesMarkdown) {
+  console.log(slidesMarkdown);
+});
 ```
 
 

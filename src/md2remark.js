@@ -1,6 +1,10 @@
+import Promise from 'bluebird';
+import { readFile } from 'fs';
 import { extend, includes } from 'lodash';
 import { TextDocument, TextDocumentEnd } from 'mutxtor';
-import Promise from 'bluebird';
+import { dirname, resolve } from 'path';
+
+const readFileAsync = Promise.promisify(readFile);
 
 export default function md2remark(markdown, options) {
 
@@ -78,6 +82,12 @@ export default function md2remark(markdown, options) {
     }
   }).add();
 
+  // Insert other Markdown files
+  doc.buildParser('SlideInsert').regexp(/<\!--\s*slide-include\s+([^\n]+?)\s*-->/gm).mutate(function(data) {
+    // TODO: web-compatible version (load file through ajax request)?
+    return loadFileToInsert(data.match[1]).then(markdownToInsert => this.replace(markdownToInsert));
+  }).add();
+
   // Convert "<!-- slide-notes -->" to "???"
   doc.buildParser('SlideNotes').regexp(/<\!--\s*slide-notes\s*-->/gm).mutate(function(data) {
     this.replace('???');
@@ -117,5 +127,20 @@ export default function md2remark(markdown, options) {
     return collectBreadcrumbs(parentHeader, breadcrumbs);
   }
 
-  return Promise.resolve(doc.mutate()).get('text');
+  const loadedFiles = {};
+  function loadFileToInsert(file) {
+
+    const basePath = options.file ? dirname(options.file) : process.cwd();
+    const absolutePath = resolve(basePath, file);
+
+    if (loadedFiles[absolutePath]) {
+      return Promise.resolve(loadedFiles[absolutePath]);
+    }
+
+    return readFileAsync(absolutePath, 'utf-8').tap(markdownToInsert => {
+      loadedFiles[absolutePath] = markdownToInsert;
+    });
+  }
+
+  return Promise.resolve().then(doc.mutate.bind(doc)).get('text');
 }

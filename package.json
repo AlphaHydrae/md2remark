@@ -36,7 +36,7 @@
   "dependencies": {
     "bluebird": "^3.4.7",
     "lodash": "^4.17.4",
-    "mutxtor": "~0.1.5"
+    "mutxtor": "~0.1.6"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
