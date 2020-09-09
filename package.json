@@ -45,7 +45,6 @@
     "@babel/preset-env": "^7.11.5",
     "concurrently": "^3.1.0",
     "doctoc": "^1.2.0",
-    "esdoc": "^0.5.2",
     "jshint": "^2.9.4",
     "live-server": "^1.2.0",
     "onchange": "^3.2.1",
