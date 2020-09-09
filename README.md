@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/md2remark.svg)](https://badge.fury.io/js/md2remark)
 [![Build Status](https://travis-ci.org/AlphaHydrae/md2remark.svg?branch=master)](https://travis-ci.org/AlphaHydrae/md2remark)
+[![Coverage Status](https://coveralls.io/repos/github/AlphaHydrae/md2remark/badge.svg?branch=master)](https://coveralls.io/github/AlphaHydrae/md2remark?branch=master)
 
 > Convert regular Markdown to [Remark][remark] slides, with a few extensions.
 
