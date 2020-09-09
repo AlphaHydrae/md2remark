@@ -32,6 +32,7 @@
     "src:watch": "onchange \"src/**/*.js\" -- npm run src:build",
     "start": "npm run build && npm run watch",
     "test": "nyc mocha",
+    "test:ci": "nyc mocha --forbid-only",
     "watch": "npm run src:watch"
   },
   "dependencies": {
