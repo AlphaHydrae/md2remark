@@ -1,6 +1,6 @@
 {
   "name": "md2remark",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert regular Markdown to Remark slides, with a few extensions",
   "keywords": [
     "markdown",
