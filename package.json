@@ -27,7 +27,7 @@
     "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "dev": "concurrently \"npm run src:watch\" \"npm run test:watch\"",
     "doctoc": "doctoc --notitle --github README.md",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "src:build": "npm run src:lint && npm run src:compile",
     "src:compile": "babel src -d lib",
     "src:lint": "jshint src",
