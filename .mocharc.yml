@@ -5,7 +5,7 @@ ignore:
   - coverage
   - lib
   - node_modules
-  - src
+  - .nyc_output
 reporter: spec
 require: '@babel/register'
 spec: spec/**/*.spec.js
@@ -16,4 +16,4 @@ watch-ignore:
   - coverage
   - lib
   - node_modules
-  - src
+  - .nyc_output

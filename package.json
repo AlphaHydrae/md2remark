@@ -25,6 +25,7 @@
   "scripts": {
     "build": "rimraf lib && npm run src:build",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "dev": "concurrently \"npm run src:watch\" \"npm run test:watch\"",
     "doctoc": "doctoc --notitle --github README.md",
     "prepublish": "npm run build",
     "src:build": "npm run src:lint && npm run src:compile",
@@ -34,7 +35,7 @@
     "start": "npm run build && npm run watch",
     "test": "nyc mocha",
     "test:ci": "nyc mocha --forbid-only",
-    "watch": "npm run src:watch"
+    "test:watch": "mocha --watch"
   },
   "dependencies": {
     "bluebird": "^3.7.2",
