@@ -1,12 +1,9 @@
-import Promise from 'bluebird';
-import { readFile } from 'fs';
+import { readFile } from 'fs-extra';
 import { extend, includes } from 'lodash';
 import { TextDocument, TextDocumentEnd } from 'mutxtor';
 import { dirname, resolve } from 'path';
 
-const readFileAsync = Promise.promisify(readFile);
-
-export default function md2remark(markdown, options) {
+export default async function md2remark(markdown, options) {
 
   const doc = new TextDocument(markdown);
 
@@ -128,19 +125,22 @@ export default function md2remark(markdown, options) {
   }
 
   const loadedFiles = {};
-  function loadFileToInclude(file) {
+  async function loadFileToInclude(file) {
 
     const basePath = options.file ? dirname(options.file) : process.cwd();
     const absolutePath = resolve(basePath, file);
 
     if (loadedFiles[absolutePath]) {
-      return Promise.resolve(loadedFiles[absolutePath]);
+      return loadedFiles[absolutePath];
     }
 
-    return readFileAsync(absolutePath, 'utf-8').tap(markdownToInclude => {
-      loadedFiles[absolutePath] = markdownToInclude;
-    });
+    const markdownToInclude = await readFile(absolutePath, 'utf-8');
+    loadedFiles[absolutePath] = markdownToInclude;
+
+    return markdownToInclude;
   }
 
-  return Promise.resolve().then(doc.mutate.bind(doc)).get('text');
+  await doc.mutate();
+
+  return doc.text;
 }
