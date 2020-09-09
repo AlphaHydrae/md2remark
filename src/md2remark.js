@@ -82,10 +82,10 @@ export default function md2remark(markdown, options) {
     }
   }).add();
 
-  // Insert other Markdown files
-  doc.buildParser('SlideInsert').regexp(/<\!--\s*slide-include\s+([^\n]+?)\s*-->/gm).mutate(function(data) {
+  // Include other Markdown files
+  doc.buildParser('SlideInclude').regexp(/<\!--\s*slide-include\s+([^\n]+?)\s*-->/gm).mutate(function(data) {
     // TODO: web-compatible version (load file through ajax request)?
-    return loadFileToInsert(data.match[1]).then(markdownToInsert => this.replace(markdownToInsert));
+    return loadFileToInclude(data.match[1]).then(markdownToInclude => this.replace(markdownToInclude));
   }).add();
 
   // Convert "<!-- slide-notes -->" to "???"
@@ -128,7 +128,7 @@ export default function md2remark(markdown, options) {
   }
 
   const loadedFiles = {};
-  function loadFileToInsert(file) {
+  function loadFileToInclude(file) {
 
     const basePath = options.file ? dirname(options.file) : process.cwd();
     const absolutePath = resolve(basePath, file);
@@ -137,8 +137,8 @@ export default function md2remark(markdown, options) {
       return Promise.resolve(loadedFiles[absolutePath]);
     }
 
-    return readFileAsync(absolutePath, 'utf-8').tap(markdownToInsert => {
-      loadedFiles[absolutePath] = markdownToInsert;
+    return readFileAsync(absolutePath, 'utf-8').tap(markdownToInclude => {
+      loadedFiles[absolutePath] = markdownToInclude;
     });
   }
 
