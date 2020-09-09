@@ -6,13 +6,21 @@ chai.use(chaiAsPromised);
 exports.expect = chai.expect;
 
 exports.normalize = text => {
-  const stripped = text.replace(/(?:^\n+|(?:\n\s*)+$)/g, '');
-  const lines = stripped.split(/\n/);
+  // Replace one line of leading and trailing whitespace.
+  const stripped = text.replace(/^[ \t]*\n/, '').replace(/\n[ \t]*$/, '');
 
-  const leadingWhitespace = lines[0].match(/^\s+/);
-  if (!leadingWhitespace || !lines.filter(line => line !== '').every(line => line.indexOf(leadingWhitespace[0]) === 0)) {
-    return lines.join('\n');
+  let lines = stripped.split(/\n/);
+
+  const firstLineWithWhitespace = lines.filter(line => line.match(/^\s+/))[0];
+  const leadingWhitespaceMatch = firstLineWithWhitespace ? firstLineWithWhitespace.match(/^\s+/) : undefined;
+  const leadingWhitespace = leadingWhitespaceMatch ? leadingWhitespaceMatch[0] : '';
+  if (linesHaveLeadingWhitespace(lines, leadingWhitespace)) {
+    lines = lines.map(line => line.slice(leadingWhitespace.length));
   }
 
-  return lines.map(line => line.slice(leadingWhitespace[0].length)).join('\n');
+  return lines.join('\n');
 };
+
+function linesHaveLeadingWhitespace(lines, leading) {
+  return lines.filter(line => line !== '').every(line => line.indexOf(leading) === 0);
+}

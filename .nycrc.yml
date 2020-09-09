@@ -1,0 +1,9 @@
+# https://github.com/istanbuljs/nyc#common-configuration-options
+all: true
+include:
+  - spec
+  - src
+reporter:
+  - html
+  - lcovonly
+  - text

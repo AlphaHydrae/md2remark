@@ -2,6 +2,7 @@
 extension:
   - js
 ignore:
+  - coverage
   - lib
   - node_modules
   - src
@@ -12,6 +13,7 @@ watch-files:
   - spec/**/*.js
   - src/**/*.js
 watch-ignore:
+  - coverage
   - lib
   - node_modules
   - src

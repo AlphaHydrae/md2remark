@@ -34,7 +34,7 @@ export default function md2remark(markdown, options) {
   }).add();
 
   // Remove doctoc comment (if any)
-  doc.buildParser('Doctoc').regexp(/^<\!--\s*START\s+doctoc\s*[^\n]+-->[\s\S]+<\!--\s*END\s+doctoc\s+[^\n]+-->/m).mutate(function(data) {
+  doc.buildParser('Doctoc').regexp(/^<\!--\s*START\s+doctoc\s*[^\n]+-->[\s\S]+<\!--\s*END\s+doctoc\s*[^\n]+-->/m).mutate(function(data) {
     this.remove();
   }).add();
 

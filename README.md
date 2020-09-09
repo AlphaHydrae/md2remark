@@ -76,7 +76,6 @@ This will output:
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ---
-
 ## Subtitle
 
 * Suspendisse potenti.

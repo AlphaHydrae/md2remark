@@ -1,4 +1,6 @@
 /config.js
+/coverage
 /lib
 /node_modules
+/.nyc_output
 /tmp
