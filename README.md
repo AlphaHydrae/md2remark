@@ -25,6 +25,7 @@ know what HTML comments you can write.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Requirements](#requirements)
 - [Usage](#usage)
 - [Documentation](#documentation)
   - [Start a new slide](#start-a-new-slide)
@@ -36,6 +37,14 @@ know what HTML comments you can write.
   - [Includes](#includes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
+
+
+
+## Requirements
+
+* [Node.js][node] 10+
 
 
 
@@ -393,6 +402,7 @@ md2remark(markdown, { file: file }).then(function(slidesMarkdown) {
 
 
 
-[remark]: https://remarkjs.com/
+[node]: https://nodejs.org
+[remark]: https://remarkjs.com
 [remark-docs]: https://github.com/gnab/remark/wiki/Markdown
 [unsemantic]: http://unsemantic.com
