@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "rimraf lib && npm run src:build",
-    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
     "dev": "concurrently \"npm run src:watch\" \"npm run test:watch\"",
     "doctoc": "doctoc --notitle --github README.md",
     "prepublish": "npm run build",
