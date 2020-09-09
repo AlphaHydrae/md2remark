@@ -34,21 +34,21 @@
     "watch": "npm run src:watch"
   },
   "dependencies": {
-    "bluebird": "^3.4.7",
+    "bluebird": "^3.7.2",
     "core-js": "^3.6.5",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.20",
     "mutxtor": "~0.1.6"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
-    "concurrently": "^3.1.0",
+    "concurrently": "^5.3.0",
     "doctoc": "^1.2.0",
-    "jshint": "^2.9.4",
+    "jshint": "^2.12.0",
     "live-server": "^1.2.0",
-    "onchange": "^3.2.1",
-    "rimraf": "^2.5.4"
+    "onchange": "^7.0.2",
+    "rimraf": "^3.0.2"
   },
   "engines": {
     "node": ">= 4.0.0"
