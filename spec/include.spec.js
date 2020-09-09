@@ -108,4 +108,17 @@ describe('<!-- slide-include <path> -->', () => {
 
     `));
   });
+
+  it('fails to include an unknown file', async () => {
+    await expect(md2remark(normalize(`
+      # Lorem Ipsum
+
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Vivamus eu vestibulum mauris, et suscipit libero.
+
+      <!-- slide-include ./spec/data/foo.include.md -->
+
+      Cras maximus dui enim, sit amet congue eros vestibulum at.
+    `))).to.eventually.be.rejectedWith(Error, /no such file or directory/i);
+  });
 });

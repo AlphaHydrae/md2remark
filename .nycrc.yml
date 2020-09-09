@@ -1,5 +1,6 @@
 # https://github.com/istanbuljs/nyc#common-configuration-options
 all: true
+extends: '@istanbuljs/nyc-config-babel'
 include:
   - spec
   - src
