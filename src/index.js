@@ -1,4 +1,4 @@
-import polyfills from 'babel-polyfill';
+import 'core-js/stable';
 
 import md2remark from './md2remark';
 
