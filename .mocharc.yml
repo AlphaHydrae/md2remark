@@ -1,0 +1,17 @@
+# https://github.com/mochajs/mocha/blob/master/example/config/.mocharc.yml
+extension:
+  - js
+ignore:
+  - lib
+  - node_modules
+  - src
+reporter: spec
+require: '@babel/register'
+spec: spec/**/*.spec.js
+watch-files:
+  - spec/**/*.js
+  - src/**/*.js
+watch-ignore:
+  - lib
+  - node_modules
+  - src
