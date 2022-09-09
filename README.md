@@ -45,7 +45,7 @@ know what HTML comments you can write.
 
 ## Requirements
 
-* [Node.js][node] 10+
+* [Node.js][node] 18+
 
 
 
